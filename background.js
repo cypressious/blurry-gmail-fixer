@@ -1,10 +1,10 @@
+const regex = /^https:\/\/www.gstatic.com\/images\/icons\/.+?\/.+?\/1x\//
+
 browser.webRequest.onBeforeRequest.addListener(
     requestDetails => {
-        if (requestDetails.originUrl.startsWith('https://mail.google.com') && requestDetails.url.startsWith('https://www.gstatic.com/images/icons/material/system/1x')) {
+        if (requestDetails.originUrl.startsWith('https://mail.google.com') && regex.test(requestDetails.url)) {
             return {
-                redirectUrl: requestDetails.url.replace(
-                    'https://www.gstatic.com/images/icons/material/system/1x',
-                    'https://www.gstatic.com/images/icons/material/system/2x')
+                redirectUrl: requestDetails.url.replace('/1x/', '/2x/')
             };
         }
     },
