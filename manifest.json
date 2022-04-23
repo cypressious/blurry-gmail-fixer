@@ -2,11 +2,12 @@
   "name": "Blurry Gmail Fixer",
   "description": "Fix Blurry Icons in Gmail when running 125% display scaling",
   "manifest_version": 2,
-  "version": "1.1",
+  "version": "1.2",
   "permissions": [
     "webRequest",
     "webRequestBlocking",
     "https://www.gstatic.com/",
+    "https://ssl.gstatic.com/",
     "https://mail.google.com/"
   ],
   "background": {
