@@ -1,21 +1,21 @@
-const regex = /^(https:)?\/\/.+?.gstatic.com\/images\/icons\/.+?\/.+?\/1x\//;
-const regex2 = /^(https:)?\/\/.+?.gstatic.com\/.+?_1x.png$/;
-
 browser.webRequest.onBeforeRequest.addListener(
-    requestDetails => {
-        if (requestDetails.originUrl.startsWith('https://mail.google.com')) {
-            if (regex.test(requestDetails.url)) {
-                return {
-                    redirectUrl: requestDetails.url.replace('/1x/', '/2x/')
-                };
-            }
-            
-            if (regex2.test(requestDetails.url)) {
-                return {
-                    redirectUrl: requestDetails.url.replace('1x.png', '2x.png')
-                };
-            }
+    ({ originUrl, url }) => {
+        if (!originUrl.startsWith('https://mail.google.com')) {
+            return;
         }
+
+        if (url.endsWith('1x.png')) {
+            return {
+                redirectUrl: url.replace('1x.png', '2x.png')
+            };
+        }
+
+        if (url.endsWith('.png') && url.includes('/1x/')) {
+            return {
+                redirectUrl: url.replace('/1x/', '/2x/')
+            };
+        }
+
     },
     { urls: ['https://*.gstatic.com/*'], types: ['image'] },
     ['blocking']
